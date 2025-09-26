@@ -37,6 +37,14 @@ export default defineNuxtConfig({
     "/": { prerender: true },
   },
 
+  nitro: {
+    preset: "vercel",
+  },
+
+  experimental: {
+    appManifest: false,
+  },
+
   compatibilityDate: "2025-01-15",
 
   eslint: {

@@ -11,8 +11,8 @@ useHead({
   }
 })
 
-const title = 'Nuxt Changelog Template'
-const description = 'Display GitHub release notes as a beautiful changelog for any repository with this Nuxt UI template.'
+const title = 'Changelog - The Journey'
+const description = 'Track the evolution and progress of our projects through detailed release notes and development milestones.'
 
 useSeoMeta({
   title,
@@ -29,17 +29,10 @@ useSeoMeta({
   <UApp>
     <div class="min-h-screen xl:grid xl:grid-cols-2">
       <UPageSection
-        title="Changelog"
-        description="Display GitHub release notes as a beautiful changelog for any repository with this Nuxt UI template."
+        title="Changelog - The Journey"
+        description="Track the evolution and progress of our projects through detailed release notes and development milestones."
         orientation="vertical"
         :links="[{
-          label: 'Documentation',
-          icon: 'i-lucide-book-open',
-          variant: 'ghost',
-          size: 'md',
-          to: 'https://ui.nuxt.com/getting-started/installation/nuxt',
-          target: '_blank'
-        }, {
           label: 'GitHub',
           icon: 'i-simple-icons-github',
           variant: 'ghost',
