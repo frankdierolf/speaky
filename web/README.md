@@ -1,39 +1,60 @@
-# OpenAI Realtime Console
+# Nuxt Starter Template
 
-This is an example application showing how to use the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) with [WebRTC](https://platform.openai.com/docs/guides/realtime-webrtc).
+[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
 
-## Installation and usage
+Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
 
-Before you begin, you'll need an OpenAI API key - [create one in the dashboard here](https://platform.openai.com/settings/api-keys). Create a `.env` file from the example file and set your API key in there:
+- [Live demo](https://starter-template.nuxt.dev/)
+- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
 
-```bash
-cp .env.example .env
+<a href="https://starter-template.nuxt.dev/" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
+    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
+  </picture>
+</a>
+
+> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+
+## Quick Start
+
+```bash [Terminal]
+npm create nuxt@latest -- -t github:nuxt-ui-templates/starter
 ```
 
-Running this application locally requires [Node.js](https://nodejs.org/) to be installed. Install dependencies for the application with:
+## Deploy your own
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
+
+## Setup
+
+Make sure to install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
-Start the application server with:
+## Development Server
+
+Start the development server on `http://localhost:3000`:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-This should start the console application on [http://localhost:3000](http://localhost:3000).
+## Production
 
-This application is a minimal template that uses [express](https://expressjs.com/) to serve the React frontend contained in the [`/client`](./client) folder. The server is configured to use [vite](https://vitejs.dev/) to build the React frontend.
+Build the application for production:
 
-This application shows how to send and receive Realtime API events over the WebRTC data channel and configure client-side function calling. You can also view the JSON payloads for client and server events using the logging panel in the UI.
+```bash
+pnpm build
+```
 
-For a more comprehensive example, see the [OpenAI Realtime Agents](https://github.com/openai/openai-realtime-agents) demo built with Next.js, using an agentic architecture inspired by [OpenAI Swarm](https://github.com/openai/swarm).
+Locally preview production build:
 
-## Previous WebSockets version
+```bash
+pnpm preview
+```
 
-The previous version of this application that used WebSockets on the client (not recommended in browsers) [can be found here](https://github.com/openai/openai-realtime-console/tree/websockets).
-
-## License
-
-MIT
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
