@@ -39,13 +39,14 @@ export const useRealtimeChat = () => {
 
   // Set up tool handler context
   const toast = useToast()
-  const { walletState, loadBalance, sendEth } = useWallet()
+  const { walletState, loadBalance, sendEth, sendEthToAddress } = useWallet()
 
   const toolContext: ToolHandlerContext = {
     toast,
     walletState,
     loadBalance,
-    sendEth
+    sendEth,
+    sendEthToAddress
   }
 
   // Initialize session with tools and instructions

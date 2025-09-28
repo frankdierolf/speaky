@@ -28,6 +28,7 @@ export interface ToastToolParams {
 
 export interface SendEthParams {
   amount: string
+  recipient?: string // Optional recipient (ENS or address)
 }
 
 export interface EstimateGasParams {
@@ -130,20 +131,21 @@ export const WALLET_QUERY_TOOLS = {
  */
 export const TRANSACTION_TOOLS = {
   /**
-   * Send Ethereum to test address
+   * Send Ethereum to an address or ENS name
    *
    * Example voice commands:
-   * - "Send 0.01 ETH"
-   * - "Transfer 0.1 Ethereum"
-   * - "Send one ETH"
-   * - "Transfer 0.001 ETH to test address"
+   * - "Send 0.01 ETH to vitalik.eth"
+   * - "Transfer 0.1 Ethereum to frank.eth"
+   * - "Send one ETH to alice.eth"
+   * - "Send 0.001 ETH to 0x742d35..."
+   * - "Send 0.01 ETH" (uses default test address)
    *
-   * Note: Sends to hardcoded test address: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
+   * Supports ENS names (.eth, .xyz, .app, etc.) and regular addresses
    */
   SEND_ETH: {
     type: 'function',
     name: 'send_ethereum',
-    description: 'Send Ethereum to a predefined test address (0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0). User will need to approve the transaction in MetaMask. This is for testing purposes only.',
+    description: 'Send Ethereum to an address or ENS name. User will need to approve the transaction in MetaMask.',
     parameters: {
       type: 'object',
       strict: true,
@@ -151,6 +153,10 @@ export const TRANSACTION_TOOLS = {
         amount: {
           type: 'string',
           description: 'The amount of ETH to send as a string (e.g., "0.01", "0.1", "1.0"). Must be between 0 and 1000 ETH.'
+        },
+        recipient: {
+          type: 'string',
+          description: 'The recipient address or ENS name (e.g., "vitalik.eth", "0x123..."). If not provided, uses test address.'
         }
       },
       required: ['amount']
@@ -232,10 +238,11 @@ export const VOICE_COMMAND_EXAMPLES = {
     'Check wallet connection status'
   ],
   SEND_ETH: [
-    'Send 0.01 ETH',
-    'Transfer 0.1 Ethereum',
-    'Send one ETH to test address',
-    'Transfer 0.001 ETH'
+    'Send 0.01 ETH to vitalik.eth',
+    'Transfer 0.1 Ethereum to frank.eth',
+    'Send one ETH to alice.eth',
+    'Send 0.001 ETH to 0x742d35...',
+    'Transfer 0.05 ETH to nick.eth'
   ],
   ESTIMATE_GAS: [
     'How much will it cost to send 0.1 ETH?',
@@ -257,6 +264,7 @@ export const TOOL_ERROR_CODES = {
   WALLET_NOT_CONNECTED: 'WALLET_NOT_CONNECTED',
   INSUFFICIENT_BALANCE: 'INSUFFICIENT_BALANCE',
   INVALID_AMOUNT: 'INVALID_AMOUNT',
+  INVALID_RECIPIENT: 'INVALID_RECIPIENT',
   TRANSACTION_FAILED: 'TRANSACTION_FAILED',
   GAS_ESTIMATION_FAILED: 'GAS_ESTIMATION_FAILED',
   NETWORK_ERROR: 'NETWORK_ERROR',

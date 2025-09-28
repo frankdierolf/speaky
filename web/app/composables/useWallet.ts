@@ -7,7 +7,9 @@ import {
   TEST_RECIPIENT_ADDRESS,
   formatEthBalance,
   formatAddress,
-  isValidEthAmount
+  isValidEthAmount,
+  parseAddressInput,
+  isValidENSName
 } from '~/utils/ethereum'
 
 // Shared state across all useWallet instances (singleton pattern)
@@ -185,6 +187,77 @@ export const useWallet = () => {
     }
   }
 
+  // Enhanced send function with ENS support
+  const sendEthToAddress = async (
+    amountEth: string,
+    recipient: string
+  ): Promise<TransactionResult> => {
+    if (!walletState.value.isConnected || !ethersSigner || !ethersProvider) {
+      throw new Error('Wallet not connected')
+    }
+
+    if (!isValidEthAmount(amountEth)) {
+      throw new Error('Invalid amount. Must be between 0 and 1000 ETH')
+    }
+
+    try {
+      // Resolve ENS name or validate address
+      const toAddress = await parseAddressInput(recipient, ethersProvider)
+
+      if (!toAddress) {
+        throw new Error(`Invalid recipient: ${recipient}. Must be a valid address or ENS name.`)
+      }
+
+      const value = parseEther(amountEth)
+
+      // Check balance
+      const currentBalance = await ethersProvider.getBalance(walletState.value.address!)
+      if (currentBalance < value) {
+        throw new Error('Insufficient balance')
+      }
+
+      // Get gas estimate
+      const feeData = await ethersProvider.getFeeData()
+      const estimatedGas = await ethersSigner.estimateGas({
+        to: toAddress,
+        value
+      })
+
+      // Calculate total cost
+      const gasLimit = (estimatedGas * 110n) / 100n // 10% buffer
+      const maxCost = value + (gasLimit * (feeData.maxFeePerGas || feeData.gasPrice || 0n))
+
+      if (currentBalance < maxCost) {
+        throw new Error('Insufficient balance for transaction including gas')
+      }
+
+      // Send transaction
+      const tx = await ethersSigner.sendTransaction({
+        to: toAddress,
+        value,
+        gasLimit
+      })
+
+      // Wait for confirmation
+      const receipt = await tx.wait(1)
+
+      // Reload balance
+      await loadBalance()
+
+      return {
+        success: true,
+        hash: receipt?.hash,
+        resolvedAddress: toAddress,
+        originalInput: recipient
+      }
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message || 'Transaction failed'
+      }
+    }
+  }
+
   // Event handlers
   const handleAccountsChanged = (accounts: string[]) => {
     if (accounts.length === 0) {
@@ -224,6 +297,7 @@ export const useWallet = () => {
     connectWallet,
     disconnectWallet,
     loadBalance,
-    sendEth
+    sendEth,
+    sendEthToAddress
   }
 }

@@ -12,7 +12,7 @@ import type {
   EstimateGasParams
 } from './realtimeTools'
 import { TOOL_ERROR_CODES } from './realtimeTools'
-import { TEST_RECIPIENT_ADDRESS, isValidEthAmount } from './ethereum'
+import { TEST_RECIPIENT_ADDRESS, isValidEthAmount, parseAddressInput } from './ethereum'
 
 // ===== TYPES =====
 
@@ -28,6 +28,7 @@ export interface ToolHandlerContext {
   walletState: any
   loadBalance: () => Promise<any>
   sendEth: (amount: string) => Promise<any>
+  sendEthToAddress: (amount: string, recipient: string) => Promise<any>
   estimateGas?: (amount: string) => Promise<any>
 }
 
@@ -203,7 +204,7 @@ export async function handleSendEthereum(
   context: ToolHandlerContext
 ): Promise<ToolResponse> {
   try {
-    const { walletState, sendEth, toast } = context
+    const { walletState, sendEthToAddress, toast } = context
 
     // Check wallet connection
     const connectionError = validateWalletConnection(walletState)
@@ -217,45 +218,63 @@ export async function handleSendEthereum(
       )
     }
 
+    // Use provided recipient or fall back to test address
+    const recipient = params.recipient || TEST_RECIPIENT_ADDRESS
+
+    // Show pending toast for ENS resolution if needed
+    if (params.recipient && params.recipient.includes('.')) {
+      toast.add({
+        title: 'Resolving ENS Name',
+        description: `Looking up ${params.recipient}...`,
+        color: 'info'
+      })
+    }
+
     // Attempt to send transaction
-    const result = await sendEth(params.amount)
+    const result = await sendEthToAddress(params.amount, recipient)
 
     if (result.success) {
-      // Show success toast
+      // Format success message based on whether ENS was used
+      const recipientDisplay = params.recipient
+        ? `${params.recipient}${result.resolvedAddress !== params.recipient ? ` (${result.resolvedAddress?.slice(0, 6)}...${result.resolvedAddress?.slice(-4)})` : ''}`
+        : `test address`
+
       toast.add({
         title: 'Transaction Sent!',
-        description: `Successfully sent ${params.amount} ETH`,
+        description: `Successfully sent ${params.amount} ETH to ${recipientDisplay}`,
         color: 'success'
       })
 
       return createSuccessResponse(
-        `Successfully sent ${params.amount} ETH to test address! Transaction hash: ${result.hash}`,
+        `Successfully sent ${params.amount} ETH to ${recipientDisplay}! Transaction hash: ${result.hash}`,
         {
           amount: params.amount,
           hash: result.hash,
-          recipient: TEST_RECIPIENT_ADDRESS
+          recipient: recipient,
+          resolvedAddress: result.resolvedAddress
         }
       )
     } else {
-      // Show error toast
-      toast.add({
-        title: 'Transaction Failed',
-        description: result.error || 'Transaction failed',
-        color: 'error'
-      })
+      // Enhanced error handling for ENS failures
+      let errorMessage = result.error || 'Transaction failed'
+      let errorCode = TOOL_ERROR_CODES.TRANSACTION_FAILED
 
-      // Determine error code based on error message
-      let errorCode: string = TOOL_ERROR_CODES.TRANSACTION_FAILED
-      if (result.error?.includes('insufficient')) {
+      if (result.error?.includes('Invalid recipient')) {
+        errorMessage = `Could not resolve "${recipient}". Please check the ENS name or address.`
+        errorCode = TOOL_ERROR_CODES.INVALID_RECIPIENT
+      } else if (result.error?.includes('insufficient')) {
         errorCode = TOOL_ERROR_CODES.INSUFFICIENT_BALANCE
       } else if (result.error?.includes('rejected')) {
         errorCode = TOOL_ERROR_CODES.USER_REJECTED
       }
 
-      return createErrorResponse(
-        result.error || 'Transaction failed. Please try again.',
-        errorCode
-      )
+      toast.add({
+        title: 'Transaction Failed',
+        description: errorMessage,
+        color: 'error'
+      })
+
+      return createErrorResponse(errorMessage, errorCode)
     }
   } catch (error: any) {
     // Show error toast
