@@ -4,15 +4,19 @@ useHead({
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+    { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+    { rel: 'manifest', href: '/site.webmanifest' }
   ],
   htmlAttrs: {
     lang: 'en'
   }
 })
 
-const title = 'Speaky - Voice Chat with AI'
-const description = 'Experience real-time voice interaction with ChatGPT. Ask it to show toast notifications and see the magic happen!'
+const title = 'Speaky - Voice Blockchain'
+const description = 'Voice-controlled ETH wallet. Check balance, send to ENS.'
 
 useSeoMeta({
   title,
@@ -46,12 +50,33 @@ useSeoMeta({
     <UFooter>
       <template #right>
         <div class="flex items-center gap-2">
-          <UButton to="https://github.com/frankdierolf/speaky" target="_blank" label="Source Code"
-            icon="i-simple-icons-github" color="neutral" variant="ghost" size="xs" />
-          <UButton to="https://deck.speaky.wtf" target="_blank" label="Deck" icon="i-lucide-presentation"
-            color="neutral" variant="ghost" size="xs" />
-          <UButton to="https://changelog.speaky.wtf" target="_blank" label="Changelog" icon="i-lucide-scroll-text"
-            color="neutral" variant="ghost" size="xs" />
+          <UButton
+            to="https://github.com/frankdierolf/speaky"
+            target="_blank"
+            label="Source Code"
+            icon="i-simple-icons-github"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+          />
+          <UButton
+            to="https://deck.speaky.wtf"
+            target="_blank"
+            label="Deck"
+            icon="i-lucide-presentation"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+          />
+          <UButton
+            to="https://changelog.speaky.wtf"
+            target="_blank"
+            label="Changelog"
+            icon="i-lucide-scroll-text"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+          />
         </div>
       </template>
     </UFooter>
