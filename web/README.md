@@ -1,60 +1,126 @@
-# Nuxt Starter Template
+# Speaky - Voice Blockchain Interface
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+> The main application for voice-controlled Ethereum wallet interaction.
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+[![Live Demo](https://img.shields.io/badge/Demo-speaky.wtf-blue?style=for-the-badge)](https://speaky.wtf)
+[![Built with Nuxt](https://img.shields.io/badge/Built%20with-Nuxt%204-00DC82?style=for-the-badge&logo=nuxt.js)](https://nuxt.com)
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+## What it does
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-  </picture>
-</a>
+Speaky lets you control your Ethereum wallet through natural voice commands. Connect your MetaMask wallet and start speaking to the blockchain:
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+### Available Voice Commands
 
-## Quick Start
+- **Balance checking**: "What's my balance?", "How much ETH do I have?"
+- **Send transactions**: "Send 0.01 ETH", "Transfer some Ethereum"
+- **Connection status**: "Is my wallet connected?", "Check connection"
 
-```bash [Terminal]
-npm create nuxt@latest -- -t github:nuxt-ui-templates/starter
-```
+All transactions require MetaMask approval for security.
 
-## Deploy your own
+## Environment Setup
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
-
-## Setup
-
-Make sure to install the dependencies:
+Create a `.env` file in the `web/` directory:
 
 ```bash
+# Required: OpenAI API key for voice processing
+OPENAI_API_KEY=sk-your-openai-api-key-here
+```
+
+## Development
+
+### Prerequisites
+- Node.js 18+
+- PNPM package manager
+- MetaMask browser extension
+- OpenAI API key
+
+### Installation
+
+```bash
+# Install dependencies
 pnpm install
-```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
+# Start development server
 pnpm dev
 ```
 
-## Production
+Visit `http://localhost:3000` to access the application.
 
-Build the application for production:
+### Production Build
 
 ```bash
+# Build for production
 pnpm build
-```
 
-Locally preview production build:
-
-```bash
+# Preview production build
 pnpm preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Architecture
+
+### Voice Processing Flow
+1. **WebRTC Audio Stream** → Real-time voice capture
+2. **OpenAI Realtime API** → Natural language understanding
+3. **Tool System** → Blockchain operation execution
+4. **MetaMask Integration** → Secure transaction approval
+
+### Key Components
+
+- `useRealtimeChat()` - Manages WebRTC and OpenAI integration
+- `useWallet()` - Handles MetaMask connection and transactions
+- `utils/toolHandlers.ts` - Executes blockchain operations
+- `utils/systemInstructions.ts` - AI persona and guidance
+
+### Available Tools
+
+| Tool | Function | Description |
+|------|----------|-------------|
+| `get_wallet_balance` | Check ETH balance | Real-time balance retrieval |
+| `check_wallet_connection` | Verify wallet status | Connection state validation |
+| `send_ethereum` | Send ETH | Secure transaction to test address |
+| `show_toast` | User notifications | Visual feedback system |
+
+## Technology Stack
+
+- **Frontend**: Nuxt 4 + Nuxt UI + TypeScript
+- **Voice**: OpenAI Realtime API + WebRTC
+- **Blockchain**: Ethers.js v6 + MetaMask
+- **Deployment**: Vercel with edge functions
+- **Styling**: Tailwind CSS + Nuxt UI components
+
+## Security
+
+- All private keys remain in MetaMask - never exposed
+- Transactions require explicit user approval
+- Test environment uses designated recipient address
+- No sensitive data stored or transmitted
+
+## Development Notes
+
+### Voice Command Testing
+1. Connect MetaMask wallet
+2. Click "Start Voice Chat"
+3. Test commands like:
+   - "What's my balance?"
+   - "Send 0.01 ETH"
+   - "Am I connected?"
+
+### Adding New Voice Tools
+1. Define tool in `utils/realtimeTools.ts`
+2. Implement handler in `utils/toolHandlers.ts`
+3. Add to system instructions in `utils/systemInstructions.ts`
+
+## Contributing
+
+1. Test voice commands thoroughly
+2. Ensure MetaMask integration works
+3. Verify transaction flows
+4. Check error handling and user feedback
+
+## Live Demo
+
+Try the voice interface at [speaky.wtf](https://speaky.wtf)
+
+---
+
+Part of the **Speaky** project - making blockchain interaction as natural as conversation.

@@ -1,73 +1,125 @@
-# Nuxt Changelog Template
+# Speaky Changelog
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+> Development progress tracker for the voice-controlled blockchain project.
 
-Use this template to create your own changelog with [Nuxt UI](https://ui.nuxt.com).
+[![Live Demo](https://img.shields.io/badge/Demo-changelog.speaky.wtf-blue?style=for-the-badge)](https://changelog.speaky.wtf)
+[![Built with Nuxt](https://img.shields.io/badge/Built%20with-Nuxt%20UI-00DC82?style=for-the-badge&logo=nuxt.js)](https://ui.nuxt.com)
 
-- [Live demo](https://changelog-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/getting-started/installation/nuxt)
+## What it does
 
-<a href="https://changelog-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/changelog-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/changelog-light.png">
-    <img alt="Nuxt Changelog Template" src="https://ui.nuxt.com/assets/templates/nuxt/changelog-light.png">
-  </picture>
-</a>
+The Speaky changelog automatically fetches and displays all GitHub releases from the main repository in a beautiful, readable format. Track the project's evolution from basic voice chat to voice-controlled blockchain interaction.
 
-## Quick Start
+View live at: **[changelog.speaky.wtf](https://changelog.speaky.wtf)**
 
-```bash [Terminal]
-npm create nuxt@latest -- -t github:nuxt-ui-templates/changelog
-```
+## Features
 
-## Deploy your own
+- **Automatic synchronization** with GitHub releases
+- **Markdown rendering** with syntax highlighting
+- **Responsive design** for all device sizes
+- **Dark/light theme** support
+- **Release categorization** by version and date
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=changelog&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fchangelog&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fchangelog-dark.png&demo-url=https%3A%2F%2Fchangelog-template.nuxt.dev%2F&demo-title=Nuxt%20Changelog%20Template&demo-description=A%20changelog%20template%20to%20display%20your%20repository%20releases%20notes%20from%20GitHub%20powered%20by%20Nuxt%20MDC.)
+## How it works
 
-## Config
+The changelog fetches release data from the GitHub API for `frankdierolf/speaky` and renders it using Nuxt MDC for enhanced markdown support. Each release includes:
 
-To customize the GitHub repository that the changelog fetches releases from, update the `repository` key in `app/app.config.ts`:
+- Version number and release date
+- Detailed release notes with markdown formatting
+- Links to GitHub releases and commits
+- Progress tracking through development phases
 
-```ts [app/app.config.ts]
-// app/app.config.ts
+## Configuration
+
+The repository is configured in `app/app.config.ts`:
+
+```typescript
 export default defineAppConfig({
-  repository: 'nuxt/ui' // Change this to your GitHub repository (e.g., 'facebook/react')
+  repository: 'frankdierolf/speaky', // GitHub repo
+  ui: {
+    colors: {
+      primary: 'green',
+      neutral: 'slate'
+    }
+  }
 })
 ```
 
-## Setup
+## Development
 
-Make sure to install the dependencies:
+### Prerequisites
+- Node.js 18+
+- PNPM package manager
+
+### Quick Start
 
 ```bash
+# Install dependencies
 pnpm install
-```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
+# Start development server
 pnpm dev
 ```
 
-## Production
+Visit `http://localhost:3000` to view the changelog locally.
 
-Build the application for production:
+### Production Build
 
 ```bash
+# Build for production
 pnpm build
-```
 
-Locally preview production build:
-
-```bash
+# Preview production build
 pnpm preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Project Structure
 
-## Renovate integration
+```
+changelog/
+├── app/
+│   ├── app.config.ts     # Repository configuration
+│   ├── app.vue           # Main application layout
+│   └── pages/
+│       └── index.vue     # Changelog display page
+├── public/               # Static assets and favicons
+└── nuxt.config.ts        # Nuxt configuration
+```
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+## Technology Stack
+
+- **Framework**: Nuxt 3 with Nuxt UI
+- **Content**: Nuxt MDC for markdown rendering
+- **Styling**: Tailwind CSS + Nuxt UI components
+- **Data**: GitHub API integration
+- **Deployment**: Vercel with static generation
+
+## Customization
+
+To use this changelog for your own project:
+
+1. Update `repository` in `app/app.config.ts`
+2. Modify colors and theming in the config
+3. Customize the layout in `app/app.vue`
+4. Deploy to your preferred platform
+
+## Recent Releases
+
+The changelog tracks major milestones in Speaky's development:
+
+- **v0.0.7**: Voice-controlled Ethereum wallet (Phase 2 - 90% complete)
+- **v0.0.6**: Project presentation deck
+- **v0.0.3**: Vercel deployment fixes and branding
+- **v0.0.2**: Changelog application integration
+- **v0.0.1**: Initial project foundation
+
+## Contributing
+
+This changelog automatically updates when new releases are published to the main repository. To contribute:
+
+1. Make changes to the main Speaky project
+2. Create a new release with proper release notes
+3. The changelog will automatically sync the new content
+
+---
+
+Part of the **Speaky** project - making blockchain interaction as natural as conversation.
