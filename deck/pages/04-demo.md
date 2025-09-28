@@ -31,8 +31,8 @@ Voice AI meets blockchain. No clicks required.
 ::right::
 
 <div class="flex items-center justify-center h-full flex-col">
-  <Youtube id="dQw4w9WgXcQ" width="400" height="240" />
+  <Youtube id="ZCs3prDRsck" width="400" height="240" />
   <p class="text-center mt-4 text-sm">
-    <a href="https://youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Watch Demo on YouTube</a>
+    <a href="https://youtu.be/ZCs3prDRsck" target="_blank">Watch Demo on YouTube</a>
   </p>
 </div>
