@@ -78,5 +78,11 @@ voice commands.
 ## Project Structure
 
 ```
-speaky/
-
+.
+├── changelog # Journey caputre
+├── deck # A nice overview about the Idea
+├── README.md 
+└── web # Main Application
+
+4 directories, 1 file
+```
