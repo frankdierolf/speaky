@@ -1,20 +1,19 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 
-const { data: versions } = await useFetch(computed(() => `https://ungh.cc/repos/${appConfig.repository}/releases`), {
+// Use GitHub API directly for better reliability
+const { data: versions } = await useFetch(`https://api.github.com/repos/${appConfig.repository}/releases`, {
   transform: (data: {
-    releases: {
-      name?: string
-      tag: string
-      publishedAt: string
-      markdown: string
-    }[]
-  }) => {
-    return data.releases.map(release => ({
-      tag: release.tag,
-      title: release.name || release.tag,
-      date: release.publishedAt,
-      markdown: release.markdown
+    tag_name: string
+    name?: string
+    published_at: string
+    body: string
+  }[]) => {
+    return data.map(release => ({
+      tag: release.tag_name,
+      title: release.name || release.tag_name,
+      date: release.published_at,
+      markdown: release.body
     }))
   }
 })
