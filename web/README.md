@@ -23,7 +23,7 @@ Create a `.env` file in the `web/` directory:
 
 ```bash
 # Required: OpenAI API key for voice processing
-OPENAI_API_KEY=sk-your-openai-api-key-here
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ## Development
